@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enkripsi dan Deskripsi AES</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+<h2>Enkripsi dan Deskripsi AES</h2>
+<form id="encryptionForm">
+  <label for="plaintext">Plaintext:</label>
+  <input type="text" id="plaintext" name="plaintext" required><br><br>
+  
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required><br><br>
+  
+  <label for="key">Kunci:</label>
+  <input type="text" id="key" name="key" required><br><br>
+  
+  <button type="button" onclick="encrypt()">Enkripsi</button>
+  <button type="button" onclick="decrypt()">Deskripsi</button>
+</form>
+
+<h3>Hasil:</h3>
+<p id="result"></p>
+
+<script>
+function encrypt() {
+  var plaintext = document.getElementById("plaintext").value;
+  var password = document.getElementById("password").value;
+  var key = document.getElementById("key").value;
+  
+  var encryptedText = aesEncrypt(plaintext, password, key);
+  
+  document.getElementById("result").innerText = "Hasil Enkripsi: " + encryptedText;
+}
+
+function decrypt() {
+  var encryptedText = document.getElementById("result").innerText.split(": ")[1];
+  var password = document.getElementById("password").value;
+  var key = document.getElementById("key").value;
+  
+  var decryptedText = aesDecrypt(encryptedText, password, key);
+  
+  document.getElementById("result").innerText = "Hasil Deskripsi: " + decryptedText;
+}
+
+function aesEncrypt(plaintext, password, key) {
+  var encryptedText = CryptoJS.AES.encrypt(plaintext, key).toString();
+  return encryptedText;
+}
+
+function aesDecrypt(encryptedText, password, key) {
+  var decryptedText = CryptoJS.AES.decrypt(encryptedText, key).toString(CryptoJS.enc.Utf8);
+  return decryptedText;
+}
+</script>
+</body>
+</html>
